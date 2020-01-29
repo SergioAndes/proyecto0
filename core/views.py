@@ -46,9 +46,13 @@ def creato(request):
     data = {'token': tok}
     valid_data = VerifyJSONWebTokenSerializer().validate(data)
     user = valid_data['user']
-    #categoria = requestData.pop('categoria', None)
-    categoriaObj = Categoria.objects.get(id=1)
-    evento = Evento.objects.create(usuario=user, categoria=categoriaObj, **request.data)
+    categoria = requestData.pop('category', None)
+    print(categoria)
+    if categoria==None:
+        evento = Evento.objects.create(usuario=user, **request.data)
+    else:
+        categoriaObj = Categoria.objects.get(id=categoria)
+        evento = Evento.objects.create(usuario=user, categoria=categoriaObj, **request.data)
     return Response(EventoSerializer(evento).data, status=status.HTTP_201_CREATED)
 
 
@@ -90,7 +94,8 @@ def updateEvent(request):
     print(requestData)
     evento = Evento.objects.get(id=requestData['id'])
     evento.nombre = requestData['nombre']
-    categoriaObj = Categoria.objects.get(id=2)
+
+    categoriaObj = Categoria.objects.get(id=request.data['category'])
     evento.categoria = categoriaObj
 
     evento.lugar = requestData['lugar']

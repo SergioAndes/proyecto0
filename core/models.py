@@ -7,7 +7,7 @@ class Categoria(models.Model):
 
 class Evento(models.Model):
     nombre = models.CharField(max_length=30,null=True)
-    categoria = models.ForeignKey(Categoria,on_delete=models.CASCADE)
+    categoria = models.ForeignKey(Categoria,on_delete=models.CASCADE,null=True)
     usuario = models.ForeignKey(User,on_delete=models.CASCADE)
     lugar = models.CharField(max_length=30,null=True)
     direccion=models.CharField(max_length=30,null=True)
