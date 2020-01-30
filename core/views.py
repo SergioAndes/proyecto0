@@ -94,10 +94,16 @@ def updateEvent(request):
     print(requestData)
     evento = Evento.objects.get(id=requestData['id'])
     evento.nombre = requestData['nombre']
-
-    categoriaObj = Categoria.objects.get(id=request.data['category'])
-    evento.categoria = categoriaObj
-
+    try:
+        categoriaObj = Categoria.objects.get(id=request.data['category'])
+        evento.categoria = categoriaObj
+    except Exception as e:
+        evento.lugar = requestData['lugar']
+        evento.direccion = requestData['direccion']
+        evento.fechaInicio = requestData['fechaInicio']
+        evento.fechaFin = requestData['fechaFin']
+        evento.presencial = requestData['presencial']
+        evento.save()
     evento.lugar = requestData['lugar']
     evento.direccion = requestData['direccion']
     evento.fechaInicio = requestData['fechaInicio']
