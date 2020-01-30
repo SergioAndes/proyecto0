@@ -146,8 +146,13 @@ def login_view(request):
 def index(request):
     eventoList = Evento.objects.all()
     if request.method == 'POST':
-        jsonData = json.loads(request.body)
-        data = {'token': jsonData['token']}
+        print("dsdsaasdasdasd")
+        print(request)
+        print("dsdsaasdasdasd")
+
+        body_unicode = request.body.decode('utf-8')
+        body = json.loads(body_unicode)
+        data = {'token': body['token']}
 
         try:
             valid_data = VerifyJSONWebTokenSerializer().validate(data)
